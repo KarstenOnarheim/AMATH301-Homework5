@@ -71,9 +71,6 @@ guess1 = np.array([A4[0], A4[1], A4[2], -5, 4, 0])
 A9 = scipy.optimize.fmin(adapterSSQ, guess1, maxiter=2000)
 A10 = adapterSSQ(A9)
 
-## (h)
-# Once we have found the optimal parameters, find the associated error.
-
 
 ######################### Coding problem 2 ###################
 ## Part (a)
@@ -83,11 +80,20 @@ year = M[:,0] #Assign the 'year' array to the first column of the data
 salmon = M[:,1] #Assign the 'salmon' array to the first column of the data
 
 ## (b) - Degree-1 polynomial
+A11 = np.polyfit(year, salmon, 1)
 
 ## (c) - Degree-3 polynomial
+A12 = np.polyfit(year, salmon, 3)
 
 ## (d) - Degree-5 polynomial
+A13 = np.polyfit(year, salmon, 5)
 
 ## (e) - compare to exact number of salmon
 exact =  752638 # The exact number of salmon
+
+er1 = np.abs(np.polyval(A11, 2022) - exact) / exact
+er2 = np.abs(np.polyval(A12, 2022) - exact) / exact
+er3 = np.abs(np.polyval(A13, 2022) - exact) / exact
+
+A14 = np.array([er1, er2, er3])
 
