@@ -25,25 +25,30 @@ def sumSquaredError(a, b, r):
     return error
 
 # Check the error function by defining A3
-A3 = sumSquaredError(300, 30, .3)
+A3 = sumSquaredError(300, 30, .03)
 
 ## (c)
 # We need an adapter function to make this work with scipy.optimize.fmin
-# Uncomment the line below to use the adapter function
-# adapter = lambda p: sumSquaredError(p[0], p[1], p[2])
-
-# Once adapter is defined, use fmin
-# We use the following guess
+adapter = lambda p: sumSquaredError(p[0], p[1], p[2])
 guess = np.array([300, 30, 0.03])
 
+A4 = scipy.optimize.fmin(adapter, guess, maxiter=2000)
 ## (d)
-# Once we have found the optimal parameters, 
-# find the error for those optimal parameters
+A5 = adapter(A4)
 
 ## (e)
 # Now we do the same thing except with max error. 
-# Your function looks similar, except use the max error
+def maxError(a, b, r):
+    # Define the model y
+    y = lambda t: a + b*(np.e**(r*t))
 
+    # Compute the error using sum-of-squared error
+    error = np.amax(np.abs(y(t) - CO2))
+    return error
+adapterME = lambda p: maxError(p[0], p[1], p[2])
+
+A6 = maxError(300, 30, .03)
+A7 = scipy.optimize.fmin(adapterME, guess, maxiter=2000)
 ## (f)
 # This error function has more inputs, but it's the same idea.
 # Make sure to use sum of squared error!
