@@ -21,7 +21,8 @@ def sumSquaredError(a, b, r):
     y = lambda t: a + b*(np.e**(r*t))
 
     # Compute the error using sum-of-squared error
-    error = (sum((y(t) - CO2)**2) / t.size)**.5
+    #error = (sum((y(t) - CO2)**2) / t.size)**.5
+    error = sum((y(t) - CO2)**2)
     return error
 
 # Check the error function by defining A3
@@ -53,8 +54,22 @@ A7 = scipy.optimize.fmin(adapterME, guess, maxiter=2000)
 # This error function has more inputs, but it's the same idea.
 # Make sure to use sum of squared error!
 
-# And we need to make a new adapter function
-# Again, this will have more inputs but will look pretty similar. 
+def sumSquaredError(a, b, r, c, d, e):
+    # Define the model y
+    y = lambda t: a + b*(np.e**(r*t)) + c*np.sin(d*(t - e))
+
+    # Compute the error using sum-of-squared error
+    #error = (sum((y(t) - CO2)**2) / t.size)**.5
+    error = sum((y(t) - CO2)**2)
+    return error
+
+adapterSSQ = lambda p: sumSquaredError(p[0], p[1], p[2], p[3], p[4], p[5])
+A8 = adapterSSQ([300, 30, .03, -5, 4, 0])
+
+guess1 = np.array([A4[0], A4[1], A4[2], -5, 4, 0])
+
+A9 = scipy.optimize.fmin(adapterSSQ, guess1, maxiter=2000)
+A10 = adapterSSQ(A9)
 
 ## (h)
 # Once we have found the optimal parameters, find the associated error.
