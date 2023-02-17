@@ -6,24 +6,26 @@ import scipy.optimize
 ## Part a - Load in the data
 # The data is called 'CO2_data.csv'
 
-# Once you have M defined from CO2_data, uncomment the 
-# following code to define t and CO2
-#t = M[:, 0]
-# CO2 = M[:, 1]
+M = np.genfromtxt('CO2_data.csv', delimiter=',')
+t = M[:, 0]
+CO2 = M[:, 1]
 
+A1 = t
+A2 = CO2
 ## (b)
 # Define the error function that calculates the sum of squared error.
 # I've started this for you, but you need to fill it in and uncomment. 
 
-#def sumSquaredError( ):
-#    # Define the model y
-#    y = lambda t: 
-#
-#    # Compute the error using sum-of-squared error
-#    error = 
-#    return error
+def sumSquaredError(a, b, r):
+    # Define the model y
+    y = lambda t: a + b*(np.e**(r*t))
+
+    # Compute the error using sum-of-squared error
+    error = (sum((y(t) - CO2)**2) / t.size)**.5
+    return error
 
 # Check the error function by defining A3
+A3 = sumSquaredError(300, 30, .3)
 
 ## (c)
 # We need an adapter function to make this work with scipy.optimize.fmin
